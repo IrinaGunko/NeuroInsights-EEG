@@ -1,5 +1,13 @@
 import streamlit as st
-from tabs import upload_file, preprocessing, visualization, feature_extraction, ml_prediction
+
+from tabs import (
+    upload_file,
+    preprocessing,
+    visualization,
+    feature_extraction,
+    ml_prediction,
+    beamformer_atlas_mapping,  # Import the new tab
+)
 
 TABS = {
     "Upload EEG File   ": upload_file,
@@ -7,7 +15,9 @@ TABS = {
     "EEG Visualization ": visualization,
     "Extract Features  ": feature_extraction,
     "Apply ML Model    ": ml_prediction,
+    "Beamformer & Atlas": beamformer_atlas_mapping,  # Add new tab
 }
+
 
 def main():
     if "current_file_name" not in st.session_state:
