@@ -24,8 +24,9 @@ def process_single_file(edf_file, output_dir, subjects_dir, save_as_hdf5=False):
         fwd = beamformer.create_forward_model(raw)
         logger.info("Dynamically calculating regularization parameter...")
         noise_cov = mne.compute_raw_covariance(raw, tmin=0, tmax=None)
-        reg = 1e-5 if noise_cov.data.mean() > 1e-4 else 0.05
-        stc = beamformer.apply_beamformer(raw, fwd, reg=reg)
+        print(noise_cov.data.mean())
+        reg = 1e-5 if noise_cov.data.mean() < 1e-4 else 0.05
+        stc = beamformer.apply_beamformer(raw, fwd, cov = noise_cov, reg=reg)
         stc_atlas = beamformer.map_to_atlas(stc, fwd)
         output_path = Path(output_dir) / f"{edf_file.stem}_stc_atlas"
         metadata = {"subject": beamformer.subject, "atlas": beamformer.atlas_name}

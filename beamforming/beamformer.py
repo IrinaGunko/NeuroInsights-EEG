@@ -49,13 +49,12 @@ class Beamformer:
             logger.error("Error creating forward model.", exc_info=True)
             raise
 
-    def apply_beamformer(self, raw, fwd, reg=0.05):
+    def apply_beamformer(self, raw, fwd, cov=None, reg=0.05):
         try:
             logger.info("Setting average EEG reference...")
             raw.set_eeg_reference(projection=True)
 
             logger.info("Computing covariance matrix...")
-            cov = mne.compute_raw_covariance(raw, tmin=0, tmax=None)
 
             logger.info(f"Applying LCMV beamformer with reg={reg}...")
             filters = mne.beamformer.make_lcmv(
