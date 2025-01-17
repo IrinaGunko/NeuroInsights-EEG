@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
-from utils.eeg_file_loader import load_eeg_file
+from mne.io import read_raw_edf
 from utils.results_saver import save_to_csv
 from mne.time_frequency import psd_array_welch
 
@@ -54,7 +54,7 @@ def process_file(file, input_dir, output_file):
     filepath = os.path.join(input_dir, file)
     print(f"Processing file: {file}")
 
-    raw = load_eeg_file(filepath)
+    raw = read_raw_edf(filepath, preload=True)
     if raw is None:
         print(f"Skipping file {file} due to loading error.")
         return
